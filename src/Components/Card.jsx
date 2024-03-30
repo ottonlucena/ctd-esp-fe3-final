@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import imagenDoctor from "../images/doctor.jpg";
 import { Link } from "react-router-dom";
+import { useProductStates } from "./utils/global.context";
 
 const Card = ({ user }) => {
   let { name, username, id } = user;
+  const { state, fetchUser } = useProductStates();
+
   const addFav = () => {
-    // Aqui iria la logica para agregar la Card en el localStorage
-    console.log(id);
+    fetchUser(user);
   };
 
   return (

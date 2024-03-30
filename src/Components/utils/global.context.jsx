@@ -3,17 +3,26 @@ import { getUserId, getUsers } from "../../api/product";
 
 export const ContextGlobal = createContext();
 
-export const initialState = { theme: false, data: [] };
+const lsFavs = JSON.parse(localStorage.getItem("favs"));
+
+export const initialState = { theme: false, data: [], favs: lsFavs || [] };
 
 //Tendremos por parámetros nuestro estado y acción
 const productsReducer = (state, action) => {
   switch (action.type) {
     case "CHANGE_MODE":
-      break;
+      return { ...state, darkMode: !state.theme };
     case "SET_USERS":
       return { ...state, data: action.payload };
     case "USER_BY_ID":
       return { ...state, user: action.payload };
+    case "ADD_FAVORITES":
+      return { ...state, favs: [...state.favs, action.payload] };
+    case "REMOVE_FAVORITE":
+      let newArr = state.favs.filter((user) => user.id !== action.payload);
+      return { ...state, favs: newArr };
+    case "REMOVE_FAVORITE_ALL":
+      return { ...state, favs: [] };
     default:
       return state;
   }
@@ -28,6 +37,11 @@ const setUsers = (users) => ({
 const setUserById = (userId) => ({
   type: "USER_BY_ID",
   payload: userId,
+});
+
+const setFavs = (user) => ({
+  type: "ADD_FAVORITES",
+  payload: user,
 });
 
 export const ContextProvider = ({ children }) => {
@@ -52,7 +66,37 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  let data = { state, dispatch, fetchUserById };
+  const fetchUser = (doc) => {
+    const isUserFavs = state.favs.some((fav) => fav.id === doc.id);
+    if (!isUserFavs) {
+      dispatch(setFavs(doc));
+    } else {
+      console.log("El usuario ya esta en favoritos");
+    }
+  };
+
+  const removeFavorite = (id) => {
+    dispatch({ type: "REMOVE_FAVORITE", payload: id });
+  };
+
+  const removeFavoriteAll = () => {
+    localStorage.removeItem("favs");
+    dispatch({ type: "REMOVE_FAVORITE_ALL" });
+  };
+
+  const toggleDarkMode = () => {
+    dispatch({ type: "CHANGE_MODE" });
+  };
+
+  let data = {
+    state,
+    dispatch,
+    fetchUserById,
+    fetchUser,
+    removeFavorite,
+    removeFavoriteAll,
+    toggleDarkMode,
+  };
   return (
     <ContextGlobal.Provider value={data}>{children}</ContextGlobal.Provider>
   );

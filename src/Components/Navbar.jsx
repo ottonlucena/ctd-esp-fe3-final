@@ -19,7 +19,7 @@ const Navbar = () => {
         </li>
       </ul>
       {/* Deberan implementar ademas la logica para cambiar de Theme con el button */}
-      <button>Change theme</button>
+      <button>Cambiar tema</button>
     </nav>
   );
 };

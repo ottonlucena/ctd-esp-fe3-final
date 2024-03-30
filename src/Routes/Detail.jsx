@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProductStates } from "../Components/utils/global.context";
 import imagenDoctor from "../images/doctor.jpg";
-import { getUserId } from "../api/product";
 
 //Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
 
