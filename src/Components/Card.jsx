@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import imagenDoctor from "../images/doctor.jpg";
 import { Link } from "react-router-dom";
 import { useProductStates } from "./utils/global.context";
@@ -9,6 +9,10 @@ const Card = ({ user }) => {
 
   const addFav = () => {
     fetchUser(user);
+    let isUserFavs = state.favs.some((el) => el.id === id);
+    if (isUserFavs) {
+      alert("El usuario se encuentra en favoritos");
+    }
   };
 
   return (

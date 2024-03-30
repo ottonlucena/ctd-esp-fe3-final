@@ -11,7 +11,7 @@ export const initialState = { theme: false, data: [], favs: lsFavs || [] };
 const productsReducer = (state, action) => {
   switch (action.type) {
     case "CHANGE_MODE":
-      return { ...state, darkMode: !state.theme };
+      return { ...state, darkMode: !state.darkMode };
     case "SET_USERS":
       return { ...state, data: action.payload };
     case "USER_BY_ID":

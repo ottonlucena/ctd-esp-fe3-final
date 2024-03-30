@@ -5,22 +5,23 @@ import Favs from "./Routes/Favs";
 import Detail from "./Routes/Detail";
 import Contact from "./Routes/Contact";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ContextProvider } from "./Components/utils/global.context";
+import { useProductStates } from "./Components/utils/global.context";
+import "./index.css";
 
 function App() {
+  const { state } = useProductStates();
+
   return (
-    <div className="App">
+    <div className={`App ${state.darkMode ? "dark" : "light"}`}>
       <BrowserRouter>
-        <ContextProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/favs" element={<Favs />} />
-            <Route path="/dentist/:id" element={<Detail />} />
-          </Routes>
-          <Footer />
-        </ContextProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/favs" element={<Favs />} />
+          <Route path="/dentist/:id" element={<Detail />} />
+        </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );
